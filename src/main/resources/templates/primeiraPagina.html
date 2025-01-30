@@ -7,5 +7,11 @@
 </head>
 <body>
     <p th:text="${msgController}"></p>
+    <form method="post" th:action="@{/create}">
+        <div style="align-items: flex-start">
+            Nome do candidato: <input type="text" name="nome_do_candidato">
+        <button>Cadastrar Candidato</button>
+        </div>
+    </form>
 </body>
 </html>
