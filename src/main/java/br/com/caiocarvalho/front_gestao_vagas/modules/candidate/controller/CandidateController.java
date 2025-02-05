@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.com.caiocarvalho.front_gestao_vagas.modules.candidate.service.CandidateService;
@@ -25,14 +26,15 @@ public class CandidateController {
 
     @PostMapping("/signIn")
     public String signIn(RedirectAttributes redirectAttributes, String username, String password) {
-        this.candidateService.login(username, password);
-
-        if (username.equals("caio")) {
+        try {
+            var token = this.candidateService.login(username, password);
             return "candidate/profile";
-        }
 
-        redirectAttributes.addFlashAttribute("error_message", "Usuário/Senha incorretos");
-        return "redirect:/candidate/login";
+
+        } catch (HttpClientErrorException e) {
+            redirectAttributes.addFlashAttribute("error_message", "Usuário/Senha incorretos");
+            return "redirect:/candidate/login";
+        }
     }
 
 }
