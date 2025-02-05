@@ -37,4 +37,9 @@ public class CandidateController {
         }
     }
 
+    @GetMapping("/profile")
+    public String profile() {
+        return "candidate/profile";
+    }
+
 }
